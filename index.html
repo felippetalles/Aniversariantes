@@ -1,118 +1,161 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Widget de Aniversários</title>
+    <title>Aniversariantes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000000; /* Fundo preto */
-            color: #ffffff; /* Texto branco */
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            max-width: 300px;
-            margin: auto;
+            margin: 0;
         }
-        h2 {
-            color: #ffffff; /* Título em branco */
+
+        .birthday-box {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin: 10px auto;
+            width: 90%; /* Ajuste de largura para caber em áreas menores */
+            max-width: 400px; /* Limita a largura em telas grandes */
+            animation: fadeIn 1.5s ease-in-out;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+
+        .birthday-message {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4CAF50; /* Cor destacada */
         }
-        li {
-            padding: 8px 0;
+
+        .next-birthdays {
+            margin-top: 15px;
         }
+
+        .no-birthdays {
+            color: #888;
+            font-style: italic;
+        }
+
+        h1, h2 {
+            font-size: 22px; /* Reduz tamanho dos títulos */
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        div {
+            font-size: 16px; /* Ajuste geral do texto */
+            margin-bottom: 6px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
-    <h2>🥳 Aniversariantes do Dia</h2>
-    <ul id="birthday-list">
-        <!-- Lista de aniversários será gerada aqui -->
-    </ul>
-
-    <h2>💼 Aniversariantes da Empresa</h2>
-    <ul id="company-birthday-list">
-        <!-- Lista de aniversários será gerada aqui -->
-    </ul>
+    <h1>Aniversariantes do Dia</h1>
+    <div id="today-birthday" class="birthday-box"></div>
+    <div class="next-birthdays">
+        <h2>Próximos Aniversariantes (7 dias)</h2>
+        <div id="upcoming-birthdays"></div>
+    </div>
 
     <script>
-        // Lista de aniversários (Exemplo)
+        // Lista fictícia de aniversariantes atualizada
         const birthdays = [
-            { name: "Amanda", date: "18-10" }, // 18 de outubro
-            { name: "Ana Carolina", date: "22-04" }, // 22 de abril
-            { name: "Arlene", date: "02-10" }, // 2 de outubro
-            { name: "Cleverton", date: "01-03" }, // 1 de março
-            { name: "Dieliston", date: "01-12" }, // 1 de dezembro
-            { name: "Ênia", date: "24-01" }, // 24 de janeiro
-            { name: "Erick", date: "10-07" }, // 10 de julho
-            { name: "Jeremias", date: "14-01" }, // 14 de janeiro
-            { name: "Ronaldo", date: "19-06" }, // 19 de junho
-            { name: "Juliana", date: "03-05" }, // 3 de maio
-            { name: "Marta", date: "17-04" }, // 17 de abril
-            { name: "Naiara", date: "01-04" }, // 1 de abril
-            { name: "Natanael", date: "14-02" }, // 14 de fevereiro
-            { name: "Priscila", date: "17-07" }, // 17 de julho
-            { name: "Robert", date: "21-11" }, // 21 de novembro
-            { name: "Rosilaine", date: "05-09" }, // 5 de setembro
-            { name: "Wilson", date: "01-04" } // 1 de abril
+            { name: 'Amanda', date: '2024-01-10' },
+            { name: 'Ana Carolina', date: '2024-03-24' },
+            { name: 'Arlene', date: '2024-11-18' },
+            { name: 'Cleverton', date: '2024-07-01' },
+            { name: 'Dieliston', date: '2024-04-22' },
+            { name: 'Ênia', date: '2024-02-01' },
+            { name: 'Erick', date: '2024-09-12' },
+            { name: 'Felippe', date: '2024-03-19' },
+            { name: 'Jeremias', date: '2024-11-12' },
+            { name: 'Ronaldo', date: '2024-11-17' },
+            { name: 'Juliana', date: '2024-11-29' },
+            { name: 'Marta', date: '2024-03-18' },
+            { name: 'Naiara', date: '2024-04-19' },
+            { name: 'Natanael', date: '2024-05-28' },
+            { name: 'Priscila', date: '2024-02-02' },
+            { name: 'Robert', date: '2024-10-17' },
+            { name: 'Rosilaine', date: '2024-12-28' },
+            { name: 'Wilson', date: '2024-10-17' },
+            { name: 'Fernando', date: '2024-09-14' }
         ];
 
-        // Lista de aniversários da empresa
-        const companyBirthdays = [
-            { name: "Amanda", date: "01/10/2024", entryYear: 2020 },
-            { name: "Ana Carolina", date: "22/04/2024", entryYear: 2021 },
-            { name: "Arlene", date: "02/10/2023", entryYear: 2019 },
-            { name: "Cleverton", date: "01/03/2012", entryYear: 2012 },
-            { name: "Dieliston", date: "01/12/2008", entryYear: 2008 },
-            { name: "Ênia", date: "24/01/2019", entryYear: 2019 },
-            { name: "Erick", date: "10/07/2023", entryYear: 2022 },
-            { name: "Jeremias", date: "14/01/1994", entryYear: 1994 },
-            { name: "Ronaldo", date: "19/06/2007", entryYear: 2007 },
-            { name: "Juliana", date: "03/05/2010", entryYear: 2010 },
-            { name: "Marta", date: "17/04/2023", entryYear: 2022 },
-            { name: "Naiara", date: "01/04/2009", entryYear: 2009 },
-            { name: "Natanael", date: "14/02/2017", entryYear: 2017 },
-            { name: "Priscila", date: "17/07/2023", entryYear: 2022 },
-            { name: "Robert", date: "21/11/2011", entryYear: 2011 },
-            { name: "Rosilaine", date: "05/09/2022", entryYear: 2022 },
-            { name: "Wilson", date: "01/04/2009", entryYear: 2009 }
-        ];
-
-        // Obter a data atual
-        const today = new Date();
-        const dayMonth = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-        // Filtrar os aniversários do dia
-        const todayBirthdays = birthdays.filter(b => b.date === dayMonth);
-        const todayCompanyBirthdays = companyBirthdays.filter(b => b.date.startsWith(today.getFullYear().toString().slice(0, 4)) && 
-                                                                    new Date(b.date.split('/').reverse().join('/')).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) === today.toLocaleDateString('pt-BR'));
-
-        // Exibir os aniversários
-        const birthdayList = document.getElementById('birthday-list');
-        if (todayBirthdays.length > 0) {
-            todayBirthdays.forEach(b => {
-                const li = document.createElement('li');
-                li.textContent = `${b.name} ${b.date.split('-')[1]}/${b.date.split('-')[0]}`; // Exibe data como dd/mm
-                birthdayList.appendChild(li);
-            });
-        } else {
-            birthdayList.innerHTML = '<li>Nenhum aniversário hoje.</li>';
+        // Função para formatar a data no formato brasileiro (DD/MM/YYYY)
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
         }
 
-        const companyBirthdayList = document.getElementById('company-birthday-list');
-        if (todayCompanyBirthdays.length > 0) {
-            todayCompanyBirthdays.forEach(b => {
-                const years = today.getFullYear() - b.entryYear; // Calcula quantos anos de empresa
-                const li = document.createElement('li');
-                li.textContent = `${b.name} ${b.date} - ${years} anos de empresa`; // Exibe data e anos de empresa
-                companyBirthdayList.appendChild(li);
+        // Função para obter os aniversariantes de hoje e dos próximos 7 dias
+        function getBirthdays() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Zera a hora para comparação correta
+            const todayStr = today.toISOString().split('T')[0];
+            const upcoming = new Date();
+            upcoming.setDate(today.getDate() + 7);
+            upcoming.setHours(0, 0, 0, 0); // Zera a hora para comparação correta
+
+            const todayBirthdays = birthdays.filter(b => b.date === todayStr);
+            const upcomingBirthdays = birthdays.filter(b => {
+                const birthdayDate = new Date(b.date);
+                birthdayDate.setHours(0, 0, 0, 0); // Zera a hora para comparação correta
+                return birthdayDate > today && birthdayDate <= upcoming;
             });
-        } else {
-            companyBirthdayList.innerHTML = '<li>Nenhum aniversário da empresa hoje.</li>';
+
+            return { todayBirthdays, upcomingBirthdays };
         }
+
+        // Exibir aniversariantes de hoje
+        function displayTodayBirthday() {
+            const { todayBirthdays } = getBirthdays();
+            const todayContainer = document.getElementById('today-birthday');
+            
+            if (todayBirthdays.length > 0) {
+                todayContainer.innerHTML = todayBirthdays.map(b => `
+                    <div class="birthday-message">
+                        Hoje é aniversário de ${b.name}! 🎉
+                    </div>
+                    <div>Data: ${formatDate(b.date)}</div>
+                `).join('');
+            } else {
+                todayContainer.innerHTML = `
+                    <div class="birthday-message">Hoje não há aniversariantes.</div>
+                `;
+            }
+        }
+
+        // Exibir aniversariantes dos próximos 7 dias
+        function displayUpcomingBirthdays() {
+            const { upcomingBirthdays } = getBirthdays();
+            const upcomingContainer = document.getElementById('upcoming-birthdays');
+            
+            if (upcomingBirthdays.length > 0) {
+                upcomingContainer.innerHTML = upcomingBirthdays.map(b => `
+                    <div>
+                        <strong>${b.name}</strong> - Aniversário em ${formatDate(b.date)}
+                    </div>
+                `).join('');
+            } else {
+                upcomingContainer.innerHTML = `
+                    <div class="no-birthdays">Nenhum aniversário nos próximos 7 dias.</div>
+                `;
+            }
+        }
+
+        // Inicializar a exibição de aniversariantes
+        displayTodayBirthday();
+        displayUpcomingBirthdays();
     </script>
 </body>
 </html>
