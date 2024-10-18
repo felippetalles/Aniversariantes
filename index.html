@@ -7,17 +7,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #000; /* Fundo preto */
+            color: #fff; /* Letra branca */
             text-align: center;
             padding: 20px;
             margin: 0;
         }
 
         .birthday-box {
-            background-color: #fff;
+            background-color: #333; /* Fundo cinza escuro para destacar a caixa */
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1); /* Sombra branca leve */
             padding: 15px;
             margin: 10px auto;
             width: 90%;
@@ -29,7 +29,7 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 8px;
-            color: #4CAF50;
+            color: #4CAF50; /* Cor destacada para a mensagem */
         }
 
         .next-birthdays {
@@ -44,7 +44,7 @@
         h1, h2 {
             font-size: 22px;
             margin-bottom: 10px;
-            color: #333;
+            color: #fff; /* Letra branca para títulos */
         }
 
         div {
@@ -56,6 +56,7 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
     </style>
 </head>
 <body>
@@ -67,14 +68,27 @@
     </div>
 
     <script>
-        // Lista fictícia de aniversariantes
+        // Lista de aniversariantes organizada por data
         const birthdays = [
-            { name: 'Fulano Gomes', date: '2024-10-19' },
-            { name: 'Cicrano Pereira', date: '2024-10-19' },
-            { name: 'Beltrano Costa', date: '2024-10-20' },
-            { name: 'Maria Souza', date: '2024-10-21' },
-            { name: 'João Oliveira', date: '2024-10-25' },
-            { name: 'Ana Farias', date: '2024-10-26' }
+            { name: 'Amanda', date: '2024-01-10' },
+            { name: 'Ênia', date: '2024-02-01' },
+            { name: 'Priscila', date: '2024-02-02' },
+            { name: 'Felippe', date: '2024-03-19' },
+            { name: 'Marta', date: '2024-03-18' },
+            { name: 'Ana Carolina', date: '2024-03-24' },
+            { name: 'Naiara', date: '2024-04-19' },
+            { name: 'Dieliston', date: '2024-04-22' },
+            { name: 'Natanael', date: '2024-05-28' },
+            { name: 'Cleverton', date: '2024-07-01' },
+            { name: 'Erick', date: '2024-09-12' },
+            { name: 'Fernando', date: '2024-09-14' },
+            { name: 'Robert', date: '2024-10-17' },
+            { name: 'Wilson', date: '2024-10-17' },
+            { name: 'Arlene', date: '2024-11-18' },
+            { name: 'Ronaldo', date: '2024-11-17' },
+            { name: 'Jeremias', date: '2024-11-12' },
+            { name: 'Juliana', date: '2024-11-29' },
+            { name: 'Rosilaine', date: '2024-12-28' }
         ];
 
         // Função para formatar a data no formato brasileiro (DD/MM/YYYY)
