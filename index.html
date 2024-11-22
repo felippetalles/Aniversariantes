@@ -99,7 +99,7 @@
         // Função para obter os aniversariantes de hoje e dos próximos 7 dias
         function getBirthdays() {
             const today = new Date();
-            const todayStr = today.toISOString().split('T')[0];
+            const todayStr = today.toLocaleDateString('pt-BR');
             const upcoming = new Date();
             upcoming.setDate(today.getDate() + 7);
 
