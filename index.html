@@ -99,13 +99,18 @@
         // Função para obter os aniversariantes de hoje e dos próximos 7 dias
         function getBirthdays() {
             const today = new Date();
-            const todayStr = today.toLocaleDateString('pt-BR');
             const upcoming = new Date();
             upcoming.setDate(today.getDate() + 7);
 
-            const todayBirthdays = birthdays.filter(b => b.date === todayStr);
+            const todayBirthdays = birthdays.filter(b => {
+                const birthdayDate = new Date(b.date);
+                return birthdayDate.getDate() === today.getDate() &&
+                       birthdayDate.getMonth() === today.getMonth();
+            });
+
             const upcomingBirthdays = birthdays.filter(b => {
                 const birthdayDate = new Date(b.date);
+                birthdayDate.setFullYear(today.getFullYear()); // Ajustar o ano para o atual
                 return birthdayDate > today && birthdayDate <= upcoming;
             });
 
